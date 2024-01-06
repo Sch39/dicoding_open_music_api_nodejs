@@ -11,6 +11,6 @@
         "no-console": "off",
         "linebreak-style": "off",
         "import/no-extraneous-dependencies": "off",
-        "no-underscore-dangle"
+        "no-underscore-dangle": "off"
     }
 }

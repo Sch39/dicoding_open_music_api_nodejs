@@ -1,14 +1,11 @@
-// const { AlbumPayloadSchema } = require('../../validator/albums/schema');
-// const InvariantError = require('../../exceptions/InvariantError');
+const AlbumsHandler = require('./handler');
+const routes = require('./routes');
 
-// const AlbumsValidator = {
-//   validatedAlbumsPayload: (payload) => {
-//     const validationResult = AlbumPayloadSchema.validate(payload);
-
-//     if (validationResult.error) {
-//       throw new InvariantError(validationResult.error.message);
-//     }
-//   },
-// };
-
-// module.exports = AlbumsValidator;
+module.exports = {
+  name: 'albums',
+  version: '1.0.0',
+  register: async (server, { service, validator }) => {
+    const albumsHandler = new AlbumsHandler(service, validator);
+    server.route(routes(albumsHandler));
+  },
+};

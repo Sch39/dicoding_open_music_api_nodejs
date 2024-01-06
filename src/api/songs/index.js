@@ -8,4 +8,4 @@ module.exports = {
     const songsHandler = new SongsHandler(service, validator);
     server.route(routes(songsHandler));
   },
-}
+};

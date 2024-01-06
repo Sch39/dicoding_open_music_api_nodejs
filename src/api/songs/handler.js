@@ -13,15 +13,13 @@ class SongsHandler {
 
   async postSongHandler(request, h) {
     this._validator.validateSongPayload(request.payload);
-    // const { title, year, genre, performer, duration, albumId } = request.payload;
-
     const songId = await this._service.addSong(request.payload);
 
     const response = h.response({
       status: 'success',
       data: {
         songId,
-      }
+      },
     });
 
     response.code(201);
@@ -34,11 +32,11 @@ class SongsHandler {
       status: 'success',
       data: {
         songs,
-      }
-    }
+      },
+    };
   }
 
-  async getSongByIdHandler(request, h) {
+  async getSongByIdHandler(request) {
     const { id } = request.params;
     const song = await this._service.getSongById(id);
 
@@ -46,11 +44,11 @@ class SongsHandler {
       status: 'success',
       data: {
         song,
-      }
-    }
+      },
+    };
   }
 
-  async putSongByIdHandler(request, h) {
+  async putSongByIdHandler(request) {
     this._validator.validateSongPayload(request.payload);
     const { id } = request.params;
 
@@ -58,21 +56,24 @@ class SongsHandler {
 
     return {
       status: 'success',
-      message: 'Success update songs',
+      message: 'Success update song',
       data: {
         song,
-      }
-    }
+      },
+    };
   }
 
-  async deleteSongByIdHandler(request, h) {
+  async deleteSongByIdHandler(request) {
     const { id } = request.params;
-    await this._service.deleteSongById(id);
+    const songId = await this._service.deleteSongById(id);
 
     return {
       status: 'success',
       message: 'Success delete song',
-    }
+      data: {
+        songId,
+      },
+    };
   }
 }
 
