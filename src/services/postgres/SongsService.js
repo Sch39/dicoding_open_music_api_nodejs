@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
@@ -28,6 +29,15 @@ class SongsService {
 
   async getSongs() {
     const result = await this._pool.query('SELECT id, title, performer FROM songs');
+    return result.rows.map(mapSongDBToModel);
+  }
+
+  async getSongsByQuery({ title, performer }) {
+    const query = {
+      text: 'SELECT id, title, performer FROM songs WHERE LOWER(title) LIKE LOWER($1) AND LOWER(performer) LIKE LOWER($2)',
+      values: [`%${title}%`, `%${performer}%`],
+    };
+    const result = await this._pool.query(query);
     return result.rows.map(mapSongDBToModel);
   }
 
