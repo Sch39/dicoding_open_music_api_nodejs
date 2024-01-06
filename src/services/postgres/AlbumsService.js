@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
@@ -26,14 +27,23 @@ class AlbumsService {
 
   async getAlbumById(id) {
     const query = {
-      text: 'SELECT * FROM albums WHERE id=$1',
+      text: 'SELECT albums.*, songs.id as song_id, songs.title, songs.performer FROM albums LEFT JOIN songs ON albums.id=songs.album_id WHERE albums.id=$1',
       values: [id],
     };
     const result = await this._pool.query(query);
     if (!result.rows.length) {
       throw new NotFoundError('Album not found!');
     }
-    return result.rows.map(mapAlbumDBToModel)[0];
+    const album = result.rows.map(mapAlbumDBToModel)[0];
+    if (!result.rows[0].song_id) {
+      album.songs = [];
+    } else {
+      album.songs = result.rows.map((
+        { song_id, title, performer },
+      ) => ({ id: song_id, title, performer }));
+    }
+
+    return album;
   }
 
   async editAlbumById(id, {
