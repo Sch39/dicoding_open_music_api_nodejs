@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const mapAlbumDBToModel = ({
   id,
   title,
@@ -5,7 +6,6 @@ const mapAlbumDBToModel = ({
   performer,
   genre,
   duration,
-  // eslint-disable-next-line camelcase
   album_id,
 }) => ({
   id,
@@ -14,7 +14,6 @@ const mapAlbumDBToModel = ({
   performer,
   genre,
   duration,
-  // eslint-disable-next-line camelcase
   albumId: album_id,
 });
 

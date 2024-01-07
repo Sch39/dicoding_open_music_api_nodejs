@@ -1,4 +1,3 @@
-// @ts-nocheck
 const autoBind = require('auto-bind');
 
 class SongsHandler {
