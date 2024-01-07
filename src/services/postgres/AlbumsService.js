@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
@@ -39,8 +38,8 @@ class AlbumsService {
       album.songs = [];
     } else {
       album.songs = result.rows.map((
-        { song_id, title, performer },
-      ) => ({ id: song_id, title, performer }));
+        { song_id: songId, title, performer },
+      ) => ({ id: songId, title, performer }));
     }
 
     return album;
